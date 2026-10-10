@@ -147,6 +147,9 @@
     display: block;
     opacity: 0.3;
     transform: translateX(-100%);
+    /* main 层叠上下文解除后 dimmer(z=99) 会盖住汉堡与点击关闭层(z-7)，
+       需点击穿透，让点击落到下面的关闭层 */
+    pointer-events: none;
   }
 }
 

@@ -133,6 +133,14 @@ main {
 }
 
 @media (max-width: 1023px) {
+  /* 移动端关闭 main 的层叠上下文：position:relative + z-index:1 会把
+     fixed 抽屉（#sidebar z=100）与遮罩困在 main（层级 1）内，永远低于
+     fixed 顶栏（#nav z=9），导致抽屉被顶栏压住。原版 main 只有背景、
+     无 position/z-index。仅移动端抽屉需要盖住顶栏，桌面端维持 z-index。 */
+  main {
+    z-index: auto;
+  }
+
   #main {
     width: 100%;
   }
