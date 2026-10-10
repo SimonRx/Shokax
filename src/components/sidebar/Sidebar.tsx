@@ -2,6 +2,7 @@ import { createEffect, createMemo, createSignal, For, onCleanup, onMount } from 
 import type { JSX } from "solid-js";
 
 import { currentLocale, getT } from "@/i18n";
+import { lockBodyScroll } from "@/toolkit/ui/scrollLock";
 import type { NavItemType } from "../navbar/NavTypes";
 import SidebarContents from "./SidebarContents.tsx";
 import SidebarOverlay from "./SidebarOverlay.tsx";
@@ -100,6 +101,19 @@ function Sidebar(props: SidebarProps) {
         setActivePanel("contents");
       }
     }
+  });
+
+  // 移动端打开抽屉时锁定 body 滚动，关闭时释放（桌面端侧边栏常驻，不加锁）
+  createEffect(() => {
+    if (typeof document === "undefined" || !sidebarOpen()) return;
+    if (window.innerWidth >= 1024) return;
+
+    const release = lockBodyScroll(document, {
+      innerWidth: window.innerWidth,
+      getComputedPaddingInlineEnd: () => window.getComputedStyle(document.body).paddingInlineEnd,
+    });
+
+    onCleanup(release);
   });
 
   let affixThreshold = 0;

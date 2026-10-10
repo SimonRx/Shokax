@@ -95,6 +95,16 @@
     width: 100%;
   }
 
+  /* 移动端抽屉可滚动修复：.panels 只设 min-height 时高度不确定，
+     子级 .panels > .inner 的 height:100% 会被解析为 auto，overflow-y:auto
+     永不触发，内容超过一屏即被裁剪且不可拖动。给 .panels 明确高度后，
+     .inner 获得确定高度成为真正的滚动容器。 */
+  .panels {
+    height: calc(100vh - 3.5rem);
+    min-height: 0;
+    box-sizing: border-box;
+  }
+
   .panels > .inner {
     margin-top: 0;
   }
