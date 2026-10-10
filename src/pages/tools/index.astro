@@ -1,0 +1,82 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Icon } from 'astro-icon/components';
+import { tools } from '../../data/tools';
+
+const pageTitle = '工具箱';
+---
+
+<Layout pageTitle={pageTitle}>
+  <div class="tools-app mx-auto w-full max-w-3xl px-4 py-8">
+    <div class="text-center mb-10">
+      <h1 class="text-3xl font-bold mb-3">工具箱</h1>
+      <p class="text-muted">一些实用的纯前端小工具，全部在浏览器本地运行。</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {
+        tools.map((tool) => (
+          <a
+            href={`/tools/${tool.slug}/`}
+            class="group block bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-8 text-center shadow-md hover:shadow-xl transition-shadow duration-300"
+          >
+            <div
+              class="w-14 h-14 mx-auto rounded-lg bg-[#4a74ad]/10 dark:bg-[#8ab4f8]/15 flex items-center justify-center text-[#4a74ad] dark:text-[#8ab4f8] mb-4 group-hover:scale-110 transition-transform duration-300"
+            >
+              <Icon name={tool.icon} class="w-8 h-8" />
+            </div>
+            <h2
+              class="text-xl font-semibold group-hover:text-[#4a74ad] dark:group-hover:text-[#8ab4f8] transition-colors"
+            >
+              {tool.name}
+            </h2>
+            <div class="flex flex-wrap justify-center gap-2 mt-3">
+              {tool.features.map((feature) => (
+                <span class="rounded-full border border-gray-200 dark:border-slate-600 px-3 py-1 text-xs text-muted">
+                  {feature}
+                </span>
+              ))}
+            </div>
+            <span
+              class="inline-flex items-center gap-1 mt-4 rounded-full border border-[#4a74ad]/40 dark:border-[#8ab4f8]/50 px-4 py-1.5 text-sm font-medium text-[#4a74ad] dark:text-[#8ab4f8] group-hover:bg-[#4a74ad] dark:group-hover:bg-[#8ab4f8] group-hover:text-white transition-colors"
+            >
+              打开 <Icon name="tabler:arrow-right" class="w-4 h-4" />
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</Layout>
+
+<style is:global>
+  /* 工具页：收掉主/次侧栏，内容列占满 layout 宽度 */
+  :root:has(.tools-app) .layout-sidebar-column,
+  :root:has(.tools-app) .layout-main-widgets,
+  :root:has(.tools-app) .layout-extra-column {
+    display: none !important;
+  }
+  :root:has(.tools-app) .layout-two-column,
+  :root:has(.tools-app) .layout-three-column {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  :root:has(.tools-app) .layout-two-column > #main,
+  :root:has(.tools-app) .layout-three-column > #main {
+    grid-column: 1 !important;
+  }
+  @media (min-width: 1440px) {
+    :root:has(.tools-app) .layout-three-column > astro-island {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  const darkSync = () =>
+    document.documentElement.classList.toggle('dark', document.documentElement.getAttribute('data-theme') === 'dark');
+  darkSync();
+  new MutationObserver(darkSync).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme'],
+  });
+</script>
