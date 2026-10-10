@@ -93,6 +93,10 @@
 @media (max-width: 1023px) {
   #sidebar > .inner {
     width: 100%;
+    /* 对齐原版：#sidebar>.inner 无 margin-top，抽屉顶部空隙由 .panels 的
+       4.6875rem 顶部预留吸收固定导航栏即可（原版导航栏下缘到头像约 25px）。
+       本地曾额外加 3.5rem，空白叠加至约 81px，被感知为"抽屉顶部一块无内容遮挡" */
+    margin-top: 0;
   }
 
   /* 移动端抽屉可滚动修复：.panels 只设 min-height 时高度不确定，
@@ -100,9 +104,21 @@
      永不触发，内容超过一屏即被裁剪且不可拖动。给 .panels 明确高度后，
      .inner 获得确定高度成为真正的滚动容器。 */
   .panels {
-    height: calc(100vh - 3.5rem);
+    height: 100vh;
     min-height: 0;
     box-sizing: border-box;
+  }
+
+  /* margin-top 归零后，absolute 定位的面板 tabs（静态位置在 .inner 顶部）
+     会滑到固定导航栏下方被遮住半截，显式下移到导航栏之下 */
+  #sidebar .tab {
+    top: 3.5rem;
+  }
+
+  /* 有 tabs 的页面（文章页）相应加大 .panels 顶部预留为 tabs 让位，避免压到
+     头像；无 tabs 的首页不命中该规则，顶部维持原版的紧凑留白 */
+  #sidebar .tab ~ .panels {
+    padding-top: 8.25rem;
   }
 
   .panels > .inner {

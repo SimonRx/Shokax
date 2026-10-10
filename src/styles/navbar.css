@@ -94,6 +94,13 @@
   }
 }
 
+/* 对齐原版 .toggle .lines 的 box-sizing: unset：
+   uno 无此工具类（box-unset 只是标记类），若全局 preflight 为 border-box，
+   width 1.375rem < padding 2×1.25rem 会使内容宽坍缩为 0，汉堡三条线消失 */
+.left-nav-btn .box-unset {
+  box-sizing: unset;
+}
+
 /* DropBox */
 .dropbox-root-btn {
   padding: 0;
