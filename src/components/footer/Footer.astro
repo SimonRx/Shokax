@@ -142,7 +142,7 @@ const iconColor = sanitizeThemeColor(
               href={config.icp.icpurl || "https://beian.miit.gov.cn/"}
               target="_blank"
               rel="noopener noreferrer"
-              class="text-grey-5 hover:opacity-80 border-b border-dashed"
+              class="inline-block py-1 text-grey-5 hover:opacity-80 border-b border-dashed"
             >
               {config.icp.icpnumber}
             </a>
@@ -153,7 +153,7 @@ const iconColor = sanitizeThemeColor(
                   target="_blank"
                   href={`https://beian.mps.gov.cn/#/query/webSearch?code=${config.icp.recordcode}`}
                   rel="noopener noreferrer"
-                  class="inline-block text-grey-5 hover:opacity-80 border-b border-dashed"
+                  class="inline-block py-1 text-grey-5 hover:opacity-80 border-b border-dashed"
                 >
                   {config.icp.icon && (
                     <img
