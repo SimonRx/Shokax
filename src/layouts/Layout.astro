@@ -241,14 +241,21 @@ import HyacineOutlet from "@hyacine/plugin-astro/components/HyacineOutlet.astro"
     <script>
       import { css } from "@/assets/fonts/LXGWWenKai-Regular.ttf?subsets";
 
-      document.addEventListener("pagereveal", () => {
-        document.body.style.fontFamily = css.family as string;
-        document.documentElement.style.setProperty("--pf-font", css.family as string);
-      });
-      document.addEventListener("DOMContentLoaded", () => {
-        document.body.style.fontFamily = css.family as string;
-        document.documentElement.style.setProperty("--pf-font", css.family as string);
-      });
+      // 子集字体只包含构建期扫描到的字符，运行时动态文本(评论、AI 摘要、播放器
+      // 歌词等)并不在内。vite-plugin-font 的 css.family 只是单一字体名，官方用法
+      // 要求使用方自行拼接 fallback；若不拼，缺字会直接渲染成豆腐块而非回退。
+      // 这里补上系统字体回退栈，缺字滑到系统字体；栈与 style.css 中 body 的默认栈一致。
+      const fontFamilyFallback =
+        '"LXGW WenKai","PingFang SC","Microsoft YaHei","Source Han Sans",sans-serif';
+      const fontFamily = `"${css.family}",${fontFamilyFallback}`;
+
+      const applyFontFamily = () => {
+        document.body.style.fontFamily = fontFamily;
+        document.documentElement.style.setProperty("--pf-font", fontFamily);
+      };
+
+      document.addEventListener("pagereveal", applyFontFamily);
+      document.addEventListener("DOMContentLoaded", applyFontFamily);
     </script>
     <div class="hidden">
       <CodeBlock client:idle />
