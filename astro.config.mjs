@@ -192,7 +192,11 @@ export default defineConfig({
     },
     plugins: [
       Font.vite({
-        scanFiles: ["src/**/*.{tsx,ts,js,jsx,md,mdx,json,astro}"],
+        // hyacine.plugin.ts 在仓库根目录（不在 src/ 下），插件配置文案
+        // （如 articleAgeWarning 的 message、siteUptime 的 prefixText）也需
+        // 纳入字体子集字符扫描，否则这些字缺失时会逐字回退到系统字体，
+        // 造成同一句话内单字字形不一致
+        scanFiles: ["src/**/*.{tsx,ts,js,jsx,md,mdx,json,astro}", "hyacine.plugin.ts"],
         css: {
           fontDisplay: "swap",
         },

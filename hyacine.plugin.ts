@@ -36,6 +36,10 @@ export default defineConfig({
     }),
     articleAgeWarning({
       maxAgeDays: 180,
+      // 显式传 message：插件默认文案存于 node_modules 包内，不参与字体
+      // 子集扫描；写在根配置文件（已被 scanFiles 覆盖）才能让文案字符
+      // 进入子集，避免"早"等字回退系统字体导致单字字形不一致
+      message: "这篇文章发布较早，内容可能已过时，请结合当前情况判断。",
     }),
     vercount(),
     analytics({
