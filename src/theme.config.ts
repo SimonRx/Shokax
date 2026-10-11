@@ -4,7 +4,11 @@ import { defineConfig } from "./toolkit/themeConfig.ts";
 export default defineConfig({
   footer: {
     icp: {
-      enable: false,
+      enable: true,
+      icpnumber: "闽ICP备2026021587号",
+      icpurl: "https://beian.miit.gov.cn/",
+      beian: "闽公网安备35010202002207号",
+      recordcode: "35010202002207",
     },
   },
   nav: [
